@@ -11,16 +11,14 @@ export class CapsuleElem extends Component {
 
 		return (
 			<div className="capsule">
-				<div>
-					<span className="capsule__name">Capsule "{name}" info:</span>
+				<span className="capsule__name">Capsule "{name}" info:</span>
 
-					<div className="capsule__blocks">
-						<CapsuleInfoBlock title="Ventilation Speed" value={went_speed} measure="rpm"></CapsuleInfoBlock>
-						<CapsuleInfoBlock title="Power" value={power} measure="kW"></CapsuleInfoBlock>
-						<CapsuleInfoBlock title="Radiation" value={radiation} measure="mSv"></CapsuleInfoBlock>
-						<CapsuleInfoBlock title="Slots Count" value={slots_count} measure=""></CapsuleInfoBlock>
-						<CapsuleInfoBlock title="Temperature" value={temperature} measure="°C"></CapsuleInfoBlock>
-					</div>
+				<div className="capsule__blocks">
+					<CapsuleInfoBlock title="Ventilation Speed" value={went_speed} measure="rpm"></CapsuleInfoBlock>
+					<CapsuleInfoBlock title="Power" value={power} measure="kW"></CapsuleInfoBlock>
+					<CapsuleInfoBlock title="Radiation" value={radiation} measure="mSv"></CapsuleInfoBlock>
+					<CapsuleInfoBlock title="Slots Count" value={slots_count} measure=""></CapsuleInfoBlock>
+					<CapsuleInfoBlock title="Temperature" value={temperature} measure="°C"></CapsuleInfoBlock>
 				</div>
 			</div>
 		);
