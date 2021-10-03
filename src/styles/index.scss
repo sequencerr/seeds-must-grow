@@ -1,0 +1,117 @@
+@import 'variables';
+
+$color-main: #0042a6;
+$color-yellow: #eafe07;
+$color-white: #fff;
+$color-svg: #80a0d3;
+$color-selected-elem: #50d1ff;
+$border-style: 1px solid $color-white;
+$font: 'Segoe UI', sans-serif;
+
+* {
+	outline: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: $font;
+	color: $color-white;
+}
+
+.App {
+	background: $color-main;
+	height: 100vh;
+	width: 100vw;
+
+	> .nav__bar {
+		float: left;
+		max-width: 300px;
+		width: 17.7%;
+		height: 100vh;
+		font-size: 14px;
+		border-right: $border-style;
+
+		> * {
+			display: flex;
+			flex-direction: column;
+			border-bottom: $border-style;
+		}
+
+		> * > {
+			.link:last-child {
+				margin-bottom: 15px;
+			}
+
+			.link:first-child {
+				margin-top: 15px;
+			}
+
+			.link {
+				margin: 8px 8px 0px 8px;
+				line-height: 40px;
+				color: $color-white;
+				text-decoration: none;
+
+				* {
+					vertical-align: middle;
+					padding-bottom: 5px;
+				}
+
+				> .navName {
+					padding-left: 16px;
+				}
+
+				> .navImage {
+					padding-left: 10px;
+				}
+			}
+
+			.selected__nav__elem {
+				border-radius: 4px;
+				background-color: $color-white;
+
+				> .navName {
+					vertical-align: middle;
+					color: $color-selected-elem;
+				}
+
+				> .navImage {
+					filter: saturate(10);
+				}
+			}
+		}
+	}
+
+	.capsule {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+
+		> div {
+			min-width: 760px;
+		}
+
+		.capsule__blocks {
+			display: grid;
+			grid-gap: 2vw;
+			grid-template-columns: 1fr 1fr;
+
+			.capsule__info__elem {
+				> {
+					height: 150px;
+					width: 300px;
+				}
+
+				.capsule__info__title {
+					background-color: #002b6c;
+					font-size: 16px;
+				}
+
+				.capsule__info__value {
+					background-color: #00317c;
+					font-size: 36px;
+				}
+			}
+		}
+	}
+}

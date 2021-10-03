@@ -1,0 +1,47 @@
+{
+	"include": ["src"],
+
+	"compilerOptions": {
+		"baseUrl": ".",
+		"lib": ["DOM", "ESNext"],
+		"module": "ESNext", // Must be esnext (for import() and import/export)
+		"moduleResolution": "Node", // Must be node (to match webpack resolution)
+		"resolveJsonModule": true, // Must be true (to match webpack loader)
+		"isolatedModules": true, // Must be true (implementation limitation)
+		"noEmit": true, // Must be true
+		"jsx": "react-jsx", // Must be react-jsx (to support the new JSX transform in React 17)
+		"typeRoots": ["node_modules/@types", "src/types"],
+		"strict": true,
+		"sourceMap": true,
+		"allowJs": false,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noImplicitAny": true,
+		"importHelpers": true,
+		"strictNullChecks": true,
+		"suppressImplicitAnyIndexErrors": true,
+		"allowSyntheticDefaultImports": true,
+		"noUnusedLocals": true,
+		"removeComments": true,
+		"esModuleInterop": true
+	}
+}
+
+// From create-react-app cli start command
+// The following changes are being made to your tsconfig.json file:
+//   - compilerOptions.target to be suggested value: es5 (this can be changed)
+//   - compilerOptions.lib to be suggested value: dom,dom.iterable,esnext (this can be changed)
+//   - compilerOptions.allowJs to be suggested value: true (this can be changed)
+//   - compilerOptions.skipLibCheck to be suggested value: true (this can be changed)
+//   - compilerOptions.esModuleInterop to be suggested value: true (this can be changed)
+//   - compilerOptions.allowSyntheticDefaultImports to be suggested value: true (this can be changed)
+//   - compilerOptions.strict to be suggested value: true (this can be changed)
+//   - compilerOptions.forceConsistentCasingInFileNames to be suggested value: true (this can be changed)
+//   - compilerOptions.noFallthroughCasesInSwitch to be suggested value: true (this can be changed)
+//   - compilerOptions.module must be esnext (for import() and import/export)
+//   - compilerOptions.moduleResolution must be node (to match webpack resolution)
+//   - compilerOptions.resolveJsonModule must be true (to match webpack loader)
+//   - compilerOptions.isolatedModules must be true (implementation limitation)
+//   - compilerOptions.noEmit must be true
+//   - compilerOptions.jsx must be react-jsx (to support the new JSX transform in React 17)

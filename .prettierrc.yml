@@ -1,0 +1,17 @@
+printWidth: 120
+tabWidth: 4
+useTabs: true
+semi: true
+singleQuote: true
+quoteProps: as-needed
+trailingComma: none
+bracketSpacing: true
+arrowParens: avoid
+endOfLine: crlf
+proseWrap: never
+insertPragma: false
+# If your IDE (vscode for me) extension for prettier couldn't find plugins, try install them into your IDE destination folder (cd "full_path_to_dir/Visual Studio Code" && npm install typescript prettier prettier-plugin-organize-imports prettier-plugin-jsdoc) OR try install them globaly
+plugins:
+    # replaces default vscode "editor.action.organizeImports", generally with the same functionality
+    - 'prettier-plugin-organize-imports'
+    - 'prettier-plugin-jsdoc'
