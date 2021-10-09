@@ -1,6 +1,7 @@
 export * from './App';
 export * from './CapsuleElem';
 export * from './CapsuleInfoBlock';
+export * from './CapsulePage';
 export * from './CapsulesPage';
 export * from './EmptyPage';
 export * from './NavBar';

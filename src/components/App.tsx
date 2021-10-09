@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
-import { CapsulesPage, EmptyPage, NavBar, PlantsPage } from '.';
+import { CapsulePage, CapsulesPage, EmptyPage, NavBar, PlantsPage } from '.';
 
 export function App() {
 	return (
@@ -8,13 +8,37 @@ export function App() {
 				<NavBar></NavBar>
 				<div className="content">
 					<Switch>
-						<Route path="/plants" component={PlantsPage} exact />
-						<Route path="/capsules" component={CapsulesPage} exact />
-						<Route path="/tasks" component={EmptyPage} exact />
-						<Route path="/messages" component={EmptyPage} exact />
-						<Route path="/settings" component={EmptyPage} exact />
-						<Route path="/call_center" component={EmptyPage} exact />
-						<Redirect to="/" exact /> {/* Should be last */}
+						<Route path="/" exact>
+							<EmptyPage />
+						</Route>
+						<Route path="/plants">
+							<PlantsPage />
+						</Route>
+						<Route path="/capsules/:id">
+							<CapsulePage />
+						</Route>
+						{/* TODO: Add redirect for unexciting ids (X-Content-Type-Options: nosniff)
+						<Route path="/capsules/:*">
+							<Redirect to="/capsules" />
+						</Route> */}
+						<Route path="/capsules">
+							<CapsulesPage />
+						</Route>
+						<Route path="/tasks">
+							<EmptyPage />
+						</Route>
+						<Route path="/messages">
+							<EmptyPage />
+						</Route>
+						<Route path="/settings">
+							<EmptyPage />
+						</Route>
+						<Route path="/call_center">
+							<EmptyPage />
+						</Route>
+						<Route path="*">
+							<Redirect to="/" />
+						</Route>
 					</Switch>
 				</div>
 			</div>

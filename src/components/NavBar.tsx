@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { NavElem } from '.';
+import { capsuleService, NavElem } from '.';
 import bell from '../assets/bell.svg';
 import capsule from '../assets/capsule.svg';
 import config from '../assets/config.svg';
@@ -10,23 +10,32 @@ import list from '../assets/task_list.svg';
 import textbox from '../assets/textbox.svg';
 
 export class NavBar extends Component {
+	state: { capsules: Capsule[] } = { capsules: [] };
+
+	async componentDidMount() {
+		this.setState({ capsules: await capsuleService.getCapsules() });
+	}
+
 	render() {
+		const { capsules } = this.state;
+
 		return (
 			<div className="nav__bar">
-				<div>
+				<div className="nav__bar__section">
 					<Link to="/">
 						<img src={nasa} alt="NASA_logo" />
 					</Link>
 				</div>
-				<div>
-					<NavElem lto="plants" innerText="Plants" svg={dashboard}></NavElem>
-					<NavElem lto="capsules" innerText="Capsules" svg={capsule}></NavElem>
-					<NavElem lto="tasks" innerText="My Tasks" svg={list}></NavElem>
-					<NavElem lto="messages" innerText="Messages" svg={textbox}></NavElem>
+				<div className="nav__bar__section">
+					<NavElem lto="plants" innerText="Plants" svg={dashboard} />
+					<NavElem lto="capsules" innerText="Capsules" svg={capsule} children={capsules} />
+					<NavElem lto="tasks" innerText="My Tasks" svg={list} />
+					<NavElem lto="messages" innerText="Messages" svg={textbox} />
 				</div>
-				<div>
-					<NavElem lto="settings" innerText="Main Settings" svg={config}></NavElem>
-					<NavElem lto="call_center" innerText="Call center" svg={bell}></NavElem>
+				<div className="nav__bar__section">
+					<span className="nav__category__label">Settings</span>
+					<NavElem lto="settings" innerText="Main Settings" svg={config} />
+					<NavElem lto="call_center" innerText="Call center" svg={bell} />
 				</div>
 			</div>
 		);
