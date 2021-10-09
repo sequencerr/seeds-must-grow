@@ -14,7 +14,7 @@ export class PlantsPage extends Component {
 	render() {
 		return (
 			<div>
-				<PlantsForm></PlantsForm>
+				<PlantsForm />
 				{this.state.plants.map(p => (
 					<PlantElem data={p} key={p.id}></PlantElem>
 				))}
