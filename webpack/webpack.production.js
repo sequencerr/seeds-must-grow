@@ -7,23 +7,42 @@ const { mergeWithRules } = require('webpack-merge');
 const { entryHtmlFile } = require('./util/paths');
 const { getNameTemplate, mergeRules } = require('./util/util');
 const common = require('./webpack.common');
+const TerserPlugin = require('terser-webpack-plugin');
+// const { constants } = require('zlib');
+// const { readdirSync } = require('fs');
+
+// const BrotliCompressionPlugin = CompressionPlugin;
+// /** @type {ParsedPath[]} */
+// const files = [];
+// const compressFileExtensions = /\.(js|css|html)$/;
+// const exts = ['.gz', '.br'];
 
 const { nameTemplate, chunkNameTemplate } = getNameTemplate('css');
 
 /** @type {Configuration} */
 const config = {
+	name: 'build',
+	mode: 'production',
 	optimization: {
 		minimize: true,
 		minimizer: [
+			new TerserPlugin({
+				minify: TerserPlugin.uglifyJsMinify,
+				parallel: true,
+				extractComments: true,
+				terserOptions: {
+					sourceMap: true,
+					compress: true
+				}
+			}),
 			// https://www.npmjs.com/package/css-minimizer-webpack-plugin
 			// https://webpack.js.org/plugins/css-minimizer-webpack-plugin
 			new CssMinimizerPlugin({
-				test: /\.css$/i,
+				minify: [CssMinimizerPlugin.cssoMinify, CssMinimizerPlugin.cleanCssMinify],
 				parallel: true,
 				minimizerOptions: {
 					preset: ['default', { discardComments: { removeAll: true } }]
-				},
-				minify: [CssMinimizerPlugin.cssoMinify, CssMinimizerPlugin.cleanCssMinify]
+				}
 			})
 		]
 	},
@@ -77,12 +96,13 @@ const config = {
 			template: entryHtmlFile,
 			inject: true,
 			minify: {
+				removeScriptTypeAttributes: true,
+				removeStyleLinkTypeAttributes: true,
+				removeEmptyAttributes: true,
+				removeRedundantAttributes: true,
 				removeComments: true,
 				collapseWhitespace: true,
-				removeRedundantAttributes: true,
 				useShortDoctype: true,
-				removeEmptyAttributes: true,
-				removeStyleLinkTypeAttributes: true,
 				keepClosingSlash: true,
 				minifyJS: true,
 				minifyCSS: true,
@@ -93,6 +113,68 @@ const config = {
 			filename: nameTemplate,
 			chunkFilename: chunkNameTemplate
 		})
+		// new CompressionPlugin({
+		// 	// [path] placeholder is important here.
+		// 	filename: '[path][base].gz[query]',
+		// 	deleteOriginalAssets: false,
+		// 	algorithm: 'gzip',
+		// 	test: compressFileExtensions,
+		// 	threshold: 10240,
+		// 	minRatio: 0.8
+		// }),
+		// // https://webpack.js.org/plugins/compression-webpack-plugin/#using-brotli
+		// new BrotliCompressionPlugin({
+		// 	filename: '[path][base].br[query]',
+		// 	deleteOriginalAssets: false,
+		// 	algorithm: 'brotliCompress',
+		// 	test: compressFileExtensions,
+		// 	compressionOptions: { [constants.BROTLI_PARAM_QUALITY]: 11 },
+		// 	threshold: 10240,
+		// 	minRatio: 0.8
+		// }),
+		// new RemovePlugin({
+		// 	after: {
+		// 		log: true,
+		// 		trash: false,
+		// 		emulate: false,
+		// 		test: [
+		// 			{
+		// 				folder: buildDir,
+		// 				recursive: true,
+		// 				method: fp => {
+		// 					// File examples
+		// 					// package.scheduler-aa4471eb.e3708a886832068ba85a.bundle.js.br
+		// 					// package.scheduler-aa4471eb.e3708a886832068ba85a.bundle.js.gz
+		// 					// package.scheduler-aa4471eb.e3708a886832068ba85a.bundle.js <-- to remove
+		// 					const { dir, base, ext } = parse(fp);
+
+		// 					if (!compressFileExtensions.test(ext)) return false;
+		// 					if (!files.length)
+		// 						files.push(
+		// 							...readdirSync(dir)
+		// 								.map(parse)
+		// 								.filter(f => exts.includes(f.ext))
+		// 						);
+		// 					if (files.filter(f => f.name == base && exts.includes(f.ext)).length == exts.length)
+		// 						return true;
+
+		// 					return false;
+		// 				}
+		// 			}
+		// 		]
+		// 	},
+		// 	before: {
+		// 		log: true,
+		// 		trash: false,
+		// 		emulate: false,
+		// 		test: [
+		// 			{
+		// 				folder: buildDir,
+		// 				method: () => true
+		// 			}
+		// 		]
+		// 	}
+		// })
 	]
 };
 

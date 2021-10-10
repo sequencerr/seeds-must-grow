@@ -100,7 +100,7 @@ module.exports = {
 		// https://medium.com/@artempetrovcode/how-webpack-progressplugin-works-7e7301a3d919
 		new ProgressPlugin(),
 		new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['**/*'] }),
-		new DotenvWebpackPlugin({ path: envFile }),
+		new DotenvWebpackPlugin({ path: envFile })
 		// https://www.npmjs.com/package/webpack-manifest-plugin
 	]
 };

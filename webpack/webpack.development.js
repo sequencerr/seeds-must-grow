@@ -1,13 +1,21 @@
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { HotModuleReplacementPlugin } = require('webpack');
 const { mergeWithRules } = require('webpack-merge');
-const { entryHtmlFile, srcDir } = require('./util/paths');
+const { entryHtmlFile, entryFile, buildDir } = require('./util/paths');
 const { mergeRules } = require('./util/util');
 const common = require('./webpack.common');
+const { Configuration } = require('webpack');
+const { WebpackPluginServe } = require('webpack-plugin-serve');
 
-/** @type {Configuration & DevServerConfiguration} */
+/** @type {Configuration} */
 const config = {
+	entry: [
+		entryFile,
+		// https://www.npmjs.com/package/webpack-plugin-serve#usage
+		'webpack-plugin-serve/client'
+	],
+	name: 'serve',
+	mode: 'development',
 	stats: {
 		children: true,
 		builtAt: true,
@@ -54,21 +62,25 @@ const config = {
 		]
 	},
 	plugins: [
+		new WebpackPluginServe({
+			static: buildDir,
+			host: 'localhost',
+			port: 21321,
+			open: true,
+			status: true,
+			compress: true,
+			progress: true,
+			waitForBuild: true,
+			historyFallback: true
+		}),
 		new HtmlWebpackPlugin({
 			template: entryHtmlFile,
 			inject: true
-		}),
-		new HotModuleReplacementPlugin()
+		})
 	],
-	devtool: 'eval-cheap-module-source-map',
-	devServer: {
-		contentBase: srcDir,
-		port: 21321,
-		hot: true,
-		compress: true,
-		open: true,
-		historyApiFallback: true
-	}
+	// https://www.npmjs.com/package/webpack-plugin-serve#usage
+	watch: true,
+	devtool: 'eval-cheap-module-source-map'
 };
 
 module.exports = mergeWithRules(mergeRules)(common, config);
