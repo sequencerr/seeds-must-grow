@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
 import { capsuleService, NavElem } from '.';
 import bell from '../assets/bell.svg';
@@ -10,32 +10,106 @@ import list from '../assets/task_list.svg';
 import textbox from '../assets/textbox.svg';
 
 export class NavBar extends Component {
-	state: { capsules: Capsule[] } = { capsules: [] };
+	state: {
+		capsules: Capsule[];
+		enabledComponent: string;
+		components: Record<string, NavElem['updateIsHidden']>;
+	} = {
+		capsules: [],
+		components: {},
+		enabledComponent: ''
+	};
+
+	constructor(props: NavBar['props']) {
+		super(props);
+		this.visibilityHandler = this.visibilityHandler.bind(this);
+	}
 
 	async componentDidMount() {
 		this.setState({ capsules: await capsuleService.getCapsules() });
 	}
 
+	visibilityHandler(
+		id: NonNullable<NavElem['props']['lto']>,
+		updateIsHidden?: () => void
+	): MouseEventHandler<HTMLElement> {
+		return () => {
+			const { enabledComponent, components } = this.state;
+			if (enabledComponent == id) return;
+
+			if (updateIsHidden) {
+				if (!Object.keys(components).includes(id)) {
+					components[id] = updateIsHidden;
+				}
+
+				components[id]();
+			}
+
+			for (const k in components) {
+				if (k != id) components[k](true);
+			}
+
+			this.setState({ enabledComponent: id });
+		};
+	}
+
 	render() {
-		const { capsules } = this.state;
+		const { capsules, components } = this.state;
 
 		return (
 			<div className="nav__bar">
 				<div className="nav__bar__section">
-					<Link to="/">
+					<Link to="/" onClick={this.visibilityHandler('logo')}>
 						<img src={nasa} alt="NASA_logo" />
 					</Link>
 				</div>
 				<div className="nav__bar__section">
-					<NavElem lto="plants" innerText="Plants" svg={dashboard} />
-					<NavElem lto="capsules" innerText="Capsules" svg={capsule} children={capsules} />
-					<NavElem lto="tasks" innerText="My Tasks" svg={list} />
-					<NavElem lto="messages" innerText="Messages" svg={textbox} />
+					<NavElem
+						lto="plants"
+						innerText="Plants"
+						svg={dashboard}
+						clickHandler={this.visibilityHandler}
+						components={components}
+					/>
+					<NavElem
+						lto="capsules"
+						innerText="Capsules"
+						svg={capsule}
+						children={capsules}
+						clickHandler={this.visibilityHandler}
+						components={components}
+					/>
+					<NavElem
+						lto="tasks"
+						innerText="My Tasks"
+						svg={list}
+						clickHandler={this.visibilityHandler}
+						components={components}
+					/>
+					<NavElem
+						lto="messages"
+						innerText="Messages"
+						svg={textbox}
+						clickHandler={this.visibilityHandler}
+						components={components}
+					/>
 				</div>
 				<div className="nav__bar__section">
 					<span className="nav__category__label">Settings</span>
-					<NavElem lto="settings" innerText="Main Settings" svg={config} />
-					<NavElem lto="call_center" innerText="Call center" svg={bell} />
+					<NavElem
+						lto="settings"
+						innerText="Main Settings"
+						svg={config}
+						clickHandler={this.visibilityHandler}
+						components={components}
+					/>
+					<NavElem
+						lto="call_center"
+						innerText="Call center"
+						svg={bell}
+						clickHandler={this.visibilityHandler}
+						components={components}
+					/>
 				</div>
 			</div>
 		);
