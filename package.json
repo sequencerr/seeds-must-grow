@@ -64,12 +64,11 @@
 		"source-map": "^0.7.3",
 		"style-loader": "^3.2.1",
 		"terser-webpack-plugin": "^5.2.4",
-		"ts-loader": "^9.2.4",
+		"ts-loader": "^9.2.6",
 		"ts-node": "^10.1.0",
 		"typescript": "^4.3.5",
 		"uglify-js": "^3.14.2",
 		"webpack": "^5.58.1",
-		"webpack-merge": "^5.8.0",
 		"webpack-nano": "^1.1.1",
 		"webpack-plugin-serve": "^1.5.0"
 	}
