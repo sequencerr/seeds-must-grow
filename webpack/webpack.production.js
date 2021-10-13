@@ -2,29 +2,65 @@ const autoprefixer = require('autoprefixer');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { Configuration } = require('webpack');
-const { mergeWithRules } = require('webpack-merge');
-const { entryHtmlFile } = require('./util/paths');
-const { getNameTemplate, mergeRules } = require('./util/util');
-const common = require('./webpack.common');
+const { Configuration, ProgressPlugin } = require('webpack');
+const { entryHtmlFile, buildDir, envFile, entryFile } = require('./util/paths');
+const { getNameTemplates, nameFixer, omit } = require('./util/util');
 const TerserPlugin = require('terser-webpack-plugin');
-// const { constants } = require('zlib');
-// const { readdirSync } = require('fs');
+const { constants } = require('zlib');
+const { readdirSync } = require('fs');
+const CompressionPlugin = require('compression-webpack-plugin');
+const RemovePlugin = require('remove-files-webpack-plugin');
+const { parse, ParsedPath } = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const DotenvWebpackPlugin = require('dotenv-webpack');
 
-// const BrotliCompressionPlugin = CompressionPlugin;
-// /** @type {ParsedPath[]} */
-// const files = [];
-// const compressFileExtensions = /\.(js|css|html)$/;
-// const exts = ['.gz', '.br'];
-
-const { nameTemplate, chunkNameTemplate } = getNameTemplate('css');
+const BrotliCompressionPlugin = CompressionPlugin;
+/** @type {ParsedPath[]} */
+const files = [];
+const compressFileExtensions = /\.(js|css|html)$/;
+const exts = ['.gz', '.br'];
 
 /** @type {Configuration} */
 const config = {
 	name: 'build',
 	mode: 'production',
+	target: 'web',
+	entry: entryFile,
+	output: {
+		...getNameTemplates('js'),
+		path: buildDir
+	},
+	performance: {
+		hints: 'warning',
+		maxAssetSize: Infinity,
+		maxEntrypointSize: Infinity
+	},
 	optimization: {
 		minimize: true,
+		chunkIds: 'named',
+		runtimeChunk: 'multiple',
+		splitChunks: {
+			chunks: 'all',
+			minChunks: 1,
+			minSize: 1,
+			minRemainingSize: 0,
+			maxSize: 244, // Recommended limit is 244 KB
+			maxAsyncRequests: 30,
+			maxInitialRequests: Infinity,
+			enforceSizeThreshold: 50000,
+			cacheGroups: {
+				react: {
+					test: /[\\/]node_modules[\\/](react.*)[\\/]/,
+					name: 'react',
+					reuseExistingChunk: true
+				},
+				vendor: {
+					test: /[\\/]node_modules[\\/]/,
+					name: nameFixer,
+					reuseExistingChunk: true
+				}
+			}
+		},
 		minimizer: [
 			new TerserPlugin({
 				minify: TerserPlugin.uglifyJsMinify,
@@ -46,9 +82,42 @@ const config = {
 			})
 		]
 	},
-	target: 'web',
+	resolve: {
+		extensions: ['.tsx', '.ts', '.js', '.d.ts']
+	},
 	module: {
 		rules: [
+			{
+				test: /\.[tj]sx?$/i,
+				exclude: /node_modules/,
+				use: [
+					{
+						loader: 'babel-loader',
+						options: {
+							babelrc: false,
+							configFile: false,
+							presets: [
+								'@babel/preset-env',
+								'@babel/preset-typescript',
+								[
+									'@babel/preset-react',
+									{
+										runtime: 'automatic'
+									}
+								]
+							],
+							plugins: [
+								[
+									'@babel/plugin-transform-runtime',
+									{
+										regenerator: true
+									}
+								]
+							]
+						}
+					}
+				]
+			},
 			{
 				test: /\.(sass|scss|css)$/i,
 				use: [
@@ -81,17 +150,33 @@ const config = {
 								]
 							}
 						}
+					},
+					// Correct order (uses from end): sass-loader => postcss-loader => css-loader => style-loader/mini-css => null-loader
+					{
+						loader: 'sass-loader',
+						// https://webpack.js.org/loaders/sass-loader/#options
+						options: {}
 					}
 				]
+			},
+			{
+				test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+				// https://webpack.js.org/configuration/module/#ruletype
+				type: 'asset/resource'
+			},
+			{
+				test: /\.(woff(2)?|eot|ttf|otf|svg|)$/i,
+				type: 'asset/inline'
 			}
 		]
 	},
-	performance: {
-		hints: 'warning',
-		maxAssetSize: Infinity,
-		maxEntrypointSize: Infinity
-	},
 	plugins: [
+		// https://www.npmjs.com/package/webpack-manifest-plugin
+		// https://webpack.js.org/plugins/progress-plugin/
+		// https://medium.com/@artempetrovcode/how-webpack-progressplugin-works-7e7301a3d919
+		new ProgressPlugin(),
+		new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['**/*'] }),
+		new DotenvWebpackPlugin({ path: envFile }),
 		new HtmlWebpackPlugin({
 			template: entryHtmlFile,
 			inject: true,
@@ -109,10 +194,7 @@ const config = {
 				minifyURLs: true
 			}
 		}),
-		new MiniCssExtractPlugin({
-			filename: nameTemplate,
-			chunkFilename: chunkNameTemplate
-		})
+		new MiniCssExtractPlugin(omit(getNameTemplates('css'), 'assetModuleFilename'))
 		// new CompressionPlugin({
 		// 	// [path] placeholder is important here.
 		// 	filename: '[path][base].gz[query]',
@@ -178,4 +260,4 @@ const config = {
 	]
 };
 
-module.exports = mergeWithRules(mergeRules)(common, config);
+module.exports = config;
