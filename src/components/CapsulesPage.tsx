@@ -14,9 +14,10 @@ export class CapsulesPage extends Component {
 	render() {
 		return (
 			<div className="capsules__page">
-				{this.state.capsules.map(c => (
+				<span className="page__name">All Capsules</span>
+				{/* {this.state.capsules.map(c => (
 					<CapsuleElem data={c} key={c.id} />
-				))}
+				))} */}
 			</div>
 		);
 	}

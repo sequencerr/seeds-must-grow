@@ -11,7 +11,7 @@ export class CapsuleElem extends Component {
 
 		return (
 			<div className="capsule">
-				<span className="capsule__name">Capsule "{name}" info:</span>
+				<span className="page__name">Capsule "{name}" info:</span>
 
 				<div className="capsule__blocks">
 					<CapsuleInfoBlock title="Ventilation Speed" value={went_speed} measure="rpm" />

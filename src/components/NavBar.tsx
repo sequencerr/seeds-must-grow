@@ -79,37 +79,37 @@ export class NavBar extends Component {
 						clickHandler={this.visibilityHandler}
 						components={components}
 					/>
-					<NavElem
+					{/* <NavElem
 						lto="tasks"
 						innerText="My Tasks"
 						svg={list}
 						clickHandler={this.visibilityHandler}
 						components={components}
-					/>
-					<NavElem
+					/> */}
+					{/* <NavElem
 						lto="messages"
 						innerText="Messages"
 						svg={textbox}
 						clickHandler={this.visibilityHandler}
 						components={components}
-					/>
+					/> */}
 				</div>
 				<div className="nav__bar__section">
 					<span className="nav__category__label">Settings</span>
-					<NavElem
+					{/* <NavElem
 						lto="settings"
 						innerText="Main Settings"
 						svg={config}
 						clickHandler={this.visibilityHandler}
 						components={components}
-					/>
-					<NavElem
+					/> */}
+					{/* <NavElem
 						lto="call_center"
 						innerText="Call center"
 						svg={bell}
 						clickHandler={this.visibilityHandler}
 						components={components}
-					/>
+					/> */}
 				</div>
 			</div>
 		);

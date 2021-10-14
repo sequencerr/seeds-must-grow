@@ -121,6 +121,22 @@ li::marker {
 		}
 	}
 
+	.page__name {
+		margin-top: 100px;
+		margin-bottom: 85px;
+		text-align: center;
+		font-size: 36px;
+	}
+
+	.plants__page {
+		.plant_elem {
+			div {
+				background-color: coral;
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
 	> .content {
 		flex-grow: 1;
 		min-height: 100vh;
@@ -129,6 +145,7 @@ li::marker {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
+
 
 		.capsule {
 			margin-top: 70px;
