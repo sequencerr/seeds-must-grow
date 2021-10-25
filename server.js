@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+var engines = require('consolidate')
 const expressStaticGzip = require('express-static-gzip');
 const { resolve } = require('path');
 // const engines = require('consolidate');
@@ -17,9 +18,14 @@ app.set('view options', { layout: false });
 // app.engine('html', engines.mustache);
 // app.set('view engine', 'html');
 
-app.get('/', (_req, res) => {
+app.get('/*', (_req, res) => {
 	res.render(resolve('build', 'index.html'));
 });
+app.get('/*/', (_req, res) => {
+	res.render(resolve('build', 'index.html'));
+});
+app.engine('html', engines.mustache);
+app.set('view engine', 'html');
 // app.get('*', (_req, res) => {
 // 	res.sendFile(resolve('build', 'index.html'));
 // });
