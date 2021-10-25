@@ -21,9 +21,6 @@ app.set('view options', { layout: false });
 app.get('/*', (_req, res) => {
 	res.render(resolve('build', 'index.html'));
 });
-app.get('/*/', (_req, res) => {
-	res.render(resolve('build', 'index.html'));
-});
 app.engine('html', engines.mustache);
 app.set('view engine', 'html');
 // app.get('*', (_req, res) => {
