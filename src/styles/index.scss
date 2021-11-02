@@ -1,3 +1,4 @@
+@import 'CapsulePage.scss';
 @import 'variables';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
@@ -129,50 +130,5 @@ li::marker {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-
-		.capsule {
-			margin-top: 70px;
-			display: flex;
-			flex-direction: column;
-
-			.capsule__name {
-				text-align: center;
-			}
-
-			.capsule__blocks {
-				margin-top: 50px;
-				display: grid;
-				grid-template-columns: repeat(2, 300px);
-				column-count: 2;
-				column-gap: 160px;
-				row-gap: 40px;
-
-				.capsule__info__elem {
-					> {
-						height: 150px;
-						width: 300px;
-					}
-
-					.capsule__info__title {
-						line-height: 20px;
-						width: fit-content;
-						max-width: 1fr;
-						text-align: left;
-						padding-left: 8px;
-						padding-right: 50px;
-						margin-bottom: 15px;
-						background-color: #002b6c;
-						font-size: 16px;
-					}
-
-					.capsule__info__value {
-						line-height: 100px;
-						padding-left: 16px;
-						background-color: #00317c;
-						font-size: 36px;
-					}
-				}
-			}
-		}
 	}
 }

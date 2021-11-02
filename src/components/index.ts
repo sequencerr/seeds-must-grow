@@ -1,5 +1,4 @@
 export * from './App';
-export * from './CapsuleElem';
 export * from './CapsuleInfoBlock';
 export * from './CapsulePage';
 export * from './CapsulesPage';
