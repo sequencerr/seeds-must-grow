@@ -1,29 +1,57 @@
 import { Component } from 'react';
-import { plantsService } from '.';
+import { Link } from 'react-router-dom';
+import { plantsService, slotsService } from '../services';
 
 export class PlantElem extends Component {
 	props!: {
 		data: Plant;
 	};
 
-	state: PlantType = {
-		id: 0,
-		name: 'Loading...',
-		description: 'Loading...'
+	state: {
+		plantSlot: Slot;
+		plant: PlantType;
+	} = {
+		plantSlot: {
+			id: 0,
+			name: 'Loading...',
+			radiation: 0,
+			capsule: 0,
+			plant: null
+		},
+		plant: {
+			id: 0,
+			name: 'Loading...',
+			description: 'Loading...'
+		}
 	};
 
 	async componentDidMount() {
-		this.setState(await plantsService.getPlantTypeByID(this.props.data.plant_type));
+		const { id } = this.props.data.plant_type;
+
+		this.setState({
+			plant: await plantsService.getPlantTypeByID(id)
+		});
+		this.setState({
+			plantSlot: await slotsService.getSlotByPlantID(id)
+		});
 	}
 
 	render() {
-		const { description, name } = this.state;
+		const { id: slotID } = this.state.plantSlot;
+		const { name, image, id } = this.state.plant;
+
+		if (!id) return null;
+
+		const imageElement = image ? <div className="img" style={{ backgroundImage: `url("${image}")` }} /> : null;
+
+		const imageWithLink = slotID ? <Link to={`/settings/${slotID}`}>{imageElement}</Link> : imageElement;
 
 		return (
-			<div>
-				<span>Plant info:</span>
-				<span>Description: {description}</span>
-				<span>Name: {name}</span>
+			<div className="plant__elem">
+				<div className="content">
+					{imageWithLink}
+					<span className="plant__name">{name}</span>
+				</div>
 			</div>
 		);
 	}

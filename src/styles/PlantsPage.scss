@@ -1,0 +1,40 @@
+$size: 128px;
+
+#Plants {
+	display: flex;
+	flex-direction: column;
+
+	.plant__elem {
+		background-color: #00183e;
+		border-radius: 30px;
+		width: 1028px;
+		height: 232px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		filter: drop-shadow(0px 15px 30px rgba(0, 25, 62, 0.3));
+
+		.content {
+			display: flex;
+			flex-direction: row;
+			justify-self: center;
+			padding: 0 72px 0 72px;
+
+			.img {
+				width: $size;
+				height: $size;
+				border-radius: 999px;
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: 50% 50%;
+				margin-right: 48px;
+			}
+
+			.plant__name {
+				line-height: $size;
+				vertical-align: middle;
+				font-size: $font-size-big;
+			}
+		}
+	}
+}

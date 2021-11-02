@@ -1,4 +1,8 @@
-export const API_URL = 'https://lairion.pythonanywhere.com';
+import { CapsulesService } from './CapsulesService';
+import { PlantsService } from './PlantsService';
+import { SlotsService } from './SlotsService';
 
-export * from './CapsulesService';
-export * from './PlantsService';
+export const API_URL = 'https://lairion.pythonanywhere.com';
+export const capsulesService = new CapsulesService();
+export const plantsService = new PlantsService();
+export const slotsService = new SlotsService();

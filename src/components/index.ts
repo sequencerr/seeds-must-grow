@@ -1,5 +1,6 @@
 export * from './App';
 export * from './CapsuleInfoBlock';
+export * from './SlotSettingsPage';
 export * from './CapsulePage';
 export * from './CapsulesPage';
 export * from './EmptyPage';
