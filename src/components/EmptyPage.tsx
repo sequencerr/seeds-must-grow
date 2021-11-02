@@ -1,1 +1,1 @@
-export const EmptyPage = () => <></>;
+export const EmptyPage = () => null;
