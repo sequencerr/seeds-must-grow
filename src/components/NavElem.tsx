@@ -1,11 +1,12 @@
 import { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { NavBar } from '.';
+import { ComponentSVG } from '../types/types';
 
 export class NavElem extends Component {
 	props!: {
 		innerText: string;
-		svg: string;
+		svg: ComponentSVG;
 		lto?: string; // link to *something*
 		children?: { id: number; name: string }[];
 		clickHandler: NavBar['visibilityHandler'];
@@ -19,7 +20,7 @@ export class NavElem extends Component {
 	constructor(props: NavElem['props']) {
 		super(props);
 		this.path = `/${this.props.lto ?? ''}`;
-		this.updateIsHidden=this.updateIsHidden.bind(this)
+		this.updateIsHidden = this.updateIsHidden.bind(this);
 	}
 
 	componentDidMount() {
@@ -32,17 +33,17 @@ export class NavElem extends Component {
 		}
 	}
 
-	updateIsHidden(hide: boolean = false) {
+	private updateIsHidden(hide: boolean = false) {
 		this.setState({ isHidden: hide });
 	}
 
 	render() {
 		const { path } = this;
-		const { innerText, svg, children, clickHandler } = this.props;
+		const { innerText, svg: ComponentSVG, children, clickHandler } = this.props;
 		const { isHidden } = this.state;
 
-		const tree = (
-			<div>
+		const tree = isHidden ? null : (
+			<div className="tree__child__container">
 				{(children?.length ? children : []).map(e => (
 					<NavLink
 						key={e.id}
@@ -59,10 +60,10 @@ export class NavElem extends Component {
 		return (
 			<div className="nav__elem" onClick={clickHandler?.call(undefined, path, this.updateIsHidden)}>
 				<NavLink className="nav__link" activeClassName="selected__nav__link" to={path}>
-					<img className="navImage" src={svg} alt={`${innerText}-svg`} />
+					<ComponentSVG className="navImage" />
 					<span className="navName">{innerText}</span>
 				</NavLink>
-				{isHidden ? <></> : tree}
+				{tree}
 			</div>
 		);
 	}

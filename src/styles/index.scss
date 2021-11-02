@@ -1,6 +1,7 @@
+@import 'App.scss';
 @import 'CapsulePage.scss';
+@import 'NavBar.scss';
 @import 'variables';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 * {
 	outline: none;
@@ -16,119 +17,4 @@ a {
 
 li::marker {
 	content: '';
-}
-
-.App {
-	font-family: $font;
-	background: $color-main;
-	min-height: 100vh;
-	width: 100vw;
-	display: flex;
-	flex-direction: row;
-	justify-content: left;
-	align-content: stretch;
-
-	> .nav__bar {
-		user-select: none;
-		min-height: 100vh;
-		max-width: 300px;
-		width: 17.7%;
-		font-size: 14px;
-		font-family: 'Roboto', sans-serif;
-		font-weight: 500;
-
-		.nav__bar__section:first-child {
-			border-top: none;
-		}
-
-		.nav__bar__section {
-			display: flex;
-			flex-direction: column;
-			justify-items: center;
-			border-top: $border-style;
-
-			> * {
-				&:first-child {
-					margin-top: 12px;
-				}
-
-				&:last-child {
-					margin-bottom: 12px;
-				}
-
-				margin: 8px 8px 0px 8px;
-			}
-
-			.nav__category__label {
-				margin: 12px 16px 7px 16px;
-			}
-
-			.nav__elem {
-				line-height: 40px;
-
-				.nav__link {
-					display: block;
-					color: $color-white;
-
-					* {
-						vertical-align: middle;
-						padding-bottom: 5px;
-					}
-
-					> .navName {
-						margin: 12px 0 4px 16px;
-						padding-left: 16px;
-					}
-
-					> .navImage {
-						padding-left: 10px;
-					}
-				}
-
-				.selected__nav__link {
-					border-radius: 4px;
-					background-color: $color-white;
-
-					> .navName {
-						vertical-align: middle;
-						color: $color-selected-elem;
-					}
-
-					> .navImage {
-						filter: saturate(10);
-					}
-				}
-
-				div {
-					display: flex;
-					flex-direction: column;
-					margin-left: 50px;
-
-					.child__elem {
-						&:last-child {
-							margin-bottom: 16px;
-						}
-
-						margin-top: 16px;
-						font-size: 16px;
-						line-height: 100%;
-					}
-
-					.selected__child__elem {
-						color: #2196f3;
-					}
-				}
-			}
-		}
-	}
-
-	> .content {
-		flex-grow: 1;
-		min-height: 100vh;
-		border-left: $border-style;
-
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-	}
 }

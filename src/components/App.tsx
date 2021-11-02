@@ -4,7 +4,7 @@ import { CapsulePage, CapsulesPage, EmptyPage, NavBar, PlantsPage } from '.';
 export function App() {
 	return (
 		<Router>
-			<div className="App">
+			<div id="App">
 				<NavBar></NavBar>
 				<div className="content">
 					<Switch>

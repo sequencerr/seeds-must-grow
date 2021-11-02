@@ -1,3 +1,5 @@
+@import 'variables';
+
 #Capsule {
 	display: flex;
 	flex-direction: column;
@@ -28,15 +30,17 @@
 				padding-left: 8px;
 				padding-right: 50px;
 				margin-bottom: 15px;
-				background-color: #002b6c;
-				font-size: 16px;
+				background-color: #00317c;
+				font-size: $font-size-small;
+				border-radius: 5px;
 			}
 
 			.capsule__info__value {
 				line-height: 100px;
 				padding-left: 16px;
-				background-color: #00317c;
-				font-size: 36px;
+				background-color: #00193e;
+				font-size: $font-size-big;
+				border-radius: 20px;
 			}
 		}
 	}

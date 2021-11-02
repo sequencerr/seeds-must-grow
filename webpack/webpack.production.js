@@ -165,8 +165,12 @@ const config = {
 				type: 'asset/resource'
 			},
 			{
-				test: /\.(woff(2)?|eot|ttf|otf|svg|)$/i,
+				test: /\.(woff(2)?|eot|ttf|otf)$/i,
 				type: 'asset/inline'
+			},
+			{
+				test: /\.svg$/,
+				use: ['@svgr/webpack', 'svgo-loader']
 			}
 		]
 	},
@@ -175,8 +179,12 @@ const config = {
 		// https://webpack.js.org/plugins/progress-plugin/
 		// https://medium.com/@artempetrovcode/how-webpack-progressplugin-works-7e7301a3d919
 		new ProgressPlugin(),
-		new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['**/*'] }),
-		new DotenvWebpackPlugin({ path: envFile }),
+		new CleanWebpackPlugin({
+			cleanOnceBeforeBuildPatterns: ['**/*']
+		}),
+		new DotenvWebpackPlugin({
+			path: envFile
+		}),
 		new HtmlWebpackPlugin({
 			template: entryHtmlFile,
 			inject: true,

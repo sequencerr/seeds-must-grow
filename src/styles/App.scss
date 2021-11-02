@@ -1,0 +1,32 @@
+@import 'variables';
+
+#App {
+	font-family: $font;
+	background: $color-main;
+	min-height: 100vh;
+	width: 100vw;
+	display: flex;
+	flex-direction: row;
+	justify-content: left;
+	align-content: stretch;
+
+	.page__name {
+		margin-bottom: 85px;
+		text-align: center;
+		font-size: $font-size-big;
+	}
+
+	> .content {
+		> div {
+			margin: 50px 0 10vh 0;
+		}
+
+		flex-grow: 1;
+		min-height: 100vh;
+		border-left: $border-style;
+
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+}

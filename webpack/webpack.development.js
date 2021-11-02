@@ -2,7 +2,7 @@ const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { entryHtmlFile, entryFile, buildDir, envFile } = require('./util/paths');
 const { getNameTemplates } = require('./util/util');
-const { Configuration, ProgressPlugin } = require('webpack');
+const { Configuration, DefinePlugin } = require('webpack');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const DotenvWebpackPlugin = require('dotenv-webpack');
@@ -14,18 +14,14 @@ const config = {
 	entry: [
 		entryFile,
 		// https://www.npmjs.com/package/webpack-plugin-serve#usage
-		'webpack-plugin-serve/client',
+		'webpack-plugin-serve/client'
 	],
 	output: {
 		...getNameTemplates('js', false),
 		path: buildDir,
 		pathinfo: false
 	},
-	stats: {
-		children: true,
-		builtAt: true,
-		env: true
-	},
+	stats: 'minimal',
 	optimization: {
 		minimize: false,
 		mergeDuplicateChunks: false,
@@ -117,23 +113,28 @@ const config = {
 				type: 'asset/resource'
 			},
 			{
-				test: /\.(woff(2)?|eot|ttf|otf|svg|)$/i,
+				test: /\.(woff(2)?|eot|ttf|otf)$/i,
 				type: 'asset/inline'
+			},
+			{
+				test: /\.svg$/,
+				use: ['@svgr/webpack']
 			}
 		]
 	},
 	plugins: [
 		// https://www.npmjs.com/package/webpack-manifest-plugin
-		// https://webpack.js.org/plugins/progress-plugin/
-		// https://medium.com/@artempetrovcode/how-webpack-progressplugin-works-7e7301a3d919
-		new ProgressPlugin(),
-		new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['**/*'] }),
-		new DotenvWebpackPlugin({ path: envFile }),
+		new CleanWebpackPlugin({
+			cleanOnceBeforeBuildPatterns: ['**/*']
+		}),
+		new DotenvWebpackPlugin({
+			path: envFile
+		}),
 		new WebpackPluginServe({
 			static: buildDir,
 			host: 'localhost',
 			port: 21321,
-			open: false,
+			open: true,
 			status: true,
 			compress: false,
 			progress: true,
